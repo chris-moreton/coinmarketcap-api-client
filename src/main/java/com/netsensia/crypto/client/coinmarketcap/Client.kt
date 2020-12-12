@@ -41,7 +41,6 @@ object Client {
         request.addHeader("X-CMC_PRO_API_KEY", apiKey)
         val response: CloseableHttpResponse = client.execute(request)
         try {
-            System.out.println(response.getStatusLine())
             val entity: HttpEntity = response.getEntity()
             response_content = EntityUtils.toString(entity)
             EntityUtils.consume(entity)
