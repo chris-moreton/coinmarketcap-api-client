@@ -1,5 +1,9 @@
 package com.netsensia.crypto.client.coinmarketcap
 
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.netsensia.crypto.client.coinmarketcap.model.globalmetrics.GlobalMetrics
 import org.apache.http.HttpEntity
 import org.apache.http.HttpHeaders
 import org.apache.http.NameValuePair
@@ -8,7 +12,6 @@ import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.utils.URIBuilder
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
-import org.apache.http.message.BasicNameValuePair
 import org.apache.http.util.EntityUtils
 import java.io.IOException
 import java.net.URISyntaxException
@@ -16,22 +19,15 @@ import java.util.*
 
 object Client {
     private val apiKey = System.getenv("COINMARKETCAP_API_KEY")
+    private val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
 
     @JvmStatic
-    fun main(args: Array<String>) {
-        val uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
-        val paratmers: MutableList<NameValuePair> = ArrayList<NameValuePair>()
-        paratmers.add(BasicNameValuePair("start", "1"))
-        paratmers.add(BasicNameValuePair("limit", "5000"))
-        paratmers.add(BasicNameValuePair("convert", "USD"))
-        try {
-            val result = makeAPICall(uri, paratmers)
-            println(result)
-        } catch (e: IOException) {
-            println("Error: cannont access content - $e")
-        } catch (e: URISyntaxException) {
-            println("Error: Invalid URL $e")
-        }
+    fun globalMetrics(): GlobalMetrics {
+        val uri = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest"
+        val parameters: MutableList<NameValuePair> = ArrayList<NameValuePair>()
+        val result = makeAPICall(uri, parameters)
+        val latestGlobalMetrics = gson.fromJson(result, GlobalMetrics::class.java)
+        return latestGlobalMetrics
     }
 
     @Throws(URISyntaxException::class, IOException::class)
