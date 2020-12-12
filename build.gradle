@@ -1,0 +1,131 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+    id 'maven'
+    id 'maven-publish'
+    id 'signing'
+}
+
+group = "com.netsensia.crypto.client.coinmarketcap"
+version = '1.0.0'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+apply plugin: 'kotlin'
+
+compileKotlin.kotlinOptions.jvmTarget = "1.8"
+
+jar.baseName("coinmarketcap-api-client")
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-jdk14', version: '1.7.30'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.3.5'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.awaitility:awaitility:4.0.2'
+
+}
+
+test {
+    useJUnit()
+    maxHeapSize = '1G'
+    testLogging.showStandardStreams = true
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+jar.baseName("coinmarketcap-api-client")
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from tasks.javadoc.destinationDir
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives jar
+
+    archives javadocJar
+    archives sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name 'coinmarketcap-api-client'
+                packaging 'jar'
+                description 'Coinmarketcap API Client'
+                url 'https://github.com/chris-moreton/coinmarketcap-api-client'
+
+                scm {
+                    connection = 'scm:git:git://github.com/chris-moreton/coinmarketcap-api-client.git'
+                    developerConnection = 'scm:git:ssh://github.com/chris-moreton/coinmarketcap-api-client.git'
+                    url = 'https://github.com/chris-moreton/coinmarketcap-api-client'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'chris-moreton'
+                        name = 'Chris Moreton'
+                        email = 'chris@netsensia.com'
+                    }
+                }
+            }
+        }
+    }
+}
