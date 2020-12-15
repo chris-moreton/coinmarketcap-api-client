@@ -7,14 +7,14 @@ data class CryptocurrencyDetails(
         val slug: String,
         val isActive: Int,
         val isFiat: Int,
-        val circulatingSupply: Int,
-        val totalSupply: Int,
+        val circulatingSupply: Double,
+        val maxSupply: Double,
+        val totalSupply: Double,
         val dateAdded: String,
         val numMarketPairs: Int,
         val cmcRank: Int,
         val lastUpdated: String,
         val tags: List<String>,
-        val platform: String?,
+        val platform: CryptocurrencyPlatform?,
         val quote: CryptocurrencyQuote
-
 )
