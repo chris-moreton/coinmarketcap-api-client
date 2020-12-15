@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "com.netsensia.crypto.client.coinmarketcap"
-version = '0.0.1'
+version = '0.0.3'
 
 publishing {
     publications {
