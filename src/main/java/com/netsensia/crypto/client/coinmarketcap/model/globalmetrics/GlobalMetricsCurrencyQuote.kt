@@ -1,7 +1,5 @@
 package com.netsensia.crypto.client.coinmarketcap.model.globalmetrics
 
-import java.time.ZonedDateTime
-
 data class GlobalMetricsCurrencyQuote(
         val totalMarketCap: Double,
         val totalVolume24H: Double,

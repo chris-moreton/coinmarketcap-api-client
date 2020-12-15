@@ -1,9 +1,9 @@
 package com.netsensia.crypto.client.coinmarketcap
 
 import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.netsensia.crypto.client.coinmarketcap.model.globalmetrics.GlobalMetrics
+import com.netsensia.crypto.client.coinmarketcap.model.cryptocurrency.CryptocurrencyQuotesLatest
+import com.netsensia.crypto.client.coinmarketcap.model.globalmetrics.GlobalMetricsQuotesLatest
 import org.apache.http.HttpEntity
 import org.apache.http.HttpHeaders
 import org.apache.http.NameValuePair
@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.utils.URIBuilder
 import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
+import org.apache.http.message.BasicNameValuePair
 import org.apache.http.util.EntityUtils
 import java.io.IOException
 import java.net.URISyntaxException
@@ -22,12 +23,22 @@ object Client {
     private val gson = GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
 
     @JvmStatic
-    fun globalMetrics(): GlobalMetrics {
+    fun globalMetrics(): GlobalMetricsQuotesLatest {
         val uri = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest"
         val parameters: MutableList<NameValuePair> = ArrayList<NameValuePair>()
         val result = makeAPICall(uri, parameters)
-        val latestGlobalMetrics = gson.fromJson(result, GlobalMetrics::class.java)
-        return latestGlobalMetrics
+        val resultObject = gson.fromJson(result, GlobalMetricsQuotesLatest::class.java)
+        return resultObject
+    }
+
+    @JvmStatic
+    fun quotes(): CryptocurrencyQuotesLatest {
+        val uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
+        val parameters: MutableList<NameValuePair> = ArrayList<NameValuePair>()
+        parameters.add(BasicNameValuePair("symbol", "BTC,ETC,XRP,USDT,BCH,LTC,LINK,ADA,DOT,BNB"))
+        val result = makeAPICall(uri, parameters)
+        val resultObject = gson.fromJson(result, CryptocurrencyQuotesLatest::class.java)
+        return resultObject
     }
 
     @Throws(URISyntaxException::class, IOException::class)

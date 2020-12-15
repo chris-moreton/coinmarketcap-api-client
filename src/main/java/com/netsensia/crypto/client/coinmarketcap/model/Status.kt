@@ -1,8 +1,6 @@
-package com.netsensia.crypto.client.coinmarketcap.model.globalmetrics
+package com.netsensia.crypto.client.coinmarketcap.model
 
-import java.time.ZonedDateTime
-
-data class GlobalMetricsStatus(
+data class Status(
         val timestamp: String,
         val errorCode: Int,
         val errorMessage: String?,

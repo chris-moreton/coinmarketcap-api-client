@@ -1,7 +1,5 @@
 package com.netsensia.crypto.client.coinmarketcap.model.globalmetrics
 
-import java.time.ZonedDateTime
-
 data class GlobalMetricsData(
         val activeCryptocurrencies: Int,
         val totalCryptocurrencies: Int,
