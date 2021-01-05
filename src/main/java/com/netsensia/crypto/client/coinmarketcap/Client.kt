@@ -35,7 +35,7 @@ object Client {
     fun quotes(): CryptocurrencyQuotesLatest {
         val uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
         val parameters: MutableList<NameValuePair> = ArrayList<NameValuePair>()
-        parameters.add(BasicNameValuePair("symbol", "BTC,ETH,XRP,USDT,BCH,LTC,LINK,ADA,DOT,BNB,XMR,PIVX"))
+        parameters.add(BasicNameValuePair("symbol", "BTC,ETH,XRP,USDT,BCH,LTC,LINK,ADA,DOT,BNB,XMR,PIVX,SOL"))
         val result = makeAPICall(uri, parameters)
         val resultObject = gson.fromJson(result, CryptocurrencyQuotesLatest::class.java)
         return resultObject
@@ -43,7 +43,7 @@ object Client {
 
     @Throws(URISyntaxException::class, IOException::class)
     fun makeAPICall(uri: String?, parameters: List<NameValuePair>?): String {
-        var response_content = ""
+        val response_content: String
         val query = URIBuilder(uri)
         query.addParameters(parameters)
         val client: CloseableHttpClient = HttpClients.createDefault()
