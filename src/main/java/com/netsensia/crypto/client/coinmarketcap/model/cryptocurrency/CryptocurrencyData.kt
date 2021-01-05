@@ -32,4 +32,13 @@ data class CryptocurrencyData(
 
         @SerializedName("BNB")
         val bnb: CryptocurrencyDetails,
+
+        @SerializedName("XMR")
+        val xmr: CryptocurrencyDetails,
+
+        @SerializedName("PIVX")
+        val pivx: CryptocurrencyDetails,
+
+        @SerializedName("SOL")
+        val sol: CryptocurrencyDetails,
 )

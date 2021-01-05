@@ -25,6 +25,7 @@ class ClientTest {
         assertEquals("Polkadot", result.data.dot.name)
         assertEquals("Binance Coin", result.data.bnb.name)
         assertEquals("Litecoin", result.data.ltc.name)
+        assertEquals("Solano", result.data.sol.name)
 
         assertTrue(result.data.ada.quote.usd.percentChange1h != 0.0)
 
