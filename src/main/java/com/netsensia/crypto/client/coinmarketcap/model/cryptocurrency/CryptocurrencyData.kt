@@ -41,4 +41,7 @@ data class CryptocurrencyData(
 
         @SerializedName("SOL")
         val sol: CryptocurrencyDetails,
+
+        @SerializedName("ZIL")
+        val zil: CryptocurrencyDetails,
 )

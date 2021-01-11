@@ -35,7 +35,7 @@ object Client {
     fun quotes(): CryptocurrencyQuotesLatest {
         val uri = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
         val parameters: MutableList<NameValuePair> = ArrayList<NameValuePair>()
-        parameters.add(BasicNameValuePair("symbol", "BTC,ETH,XRP,USDT,BCH,LTC,LINK,ADA,DOT,BNB,XMR,PIVX,SOL"))
+        parameters.add(BasicNameValuePair("symbol", "BTC,ETH,XRP,USDT,BCH,LTC,LINK,ADA,DOT,BNB,XMR,PIVX,SOL,ZIL"))
         val result = makeAPICall(uri, parameters)
         val resultObject = gson.fromJson(result, CryptocurrencyQuotesLatest::class.java)
         return resultObject
